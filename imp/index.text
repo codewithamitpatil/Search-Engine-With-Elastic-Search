@@ -1,0 +1,14 @@
+
+
+1. when we insert data in indises.
+that time field get daynamic mapping. it simply
+means if we have field called id . 
+and we are assigning a string value for the first docs.
+then next time it leads to an error , cause it expecting
+string and you are assign a numeric value to it.
+
+
+Elasticsearch has dropped the string type and is 
+now using text. 
+So your code should be something like this.
+
