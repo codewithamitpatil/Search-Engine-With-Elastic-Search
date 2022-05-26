@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import amqp from 'amqplib';
 
 import config from './config/default.js';
+import routes from './routes/index.js';
 
 
 
@@ -26,6 +27,10 @@ app.use(cors('*'));
 
 // enable helmet security rules
 app.use(helmet());
+
+
+// intialize routes
+app.use('', routes);
 
 
 // add post
