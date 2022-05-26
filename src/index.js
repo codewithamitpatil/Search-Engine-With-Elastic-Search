@@ -28,16 +28,6 @@ const autoIndex = config.autoIndex;
 const searchIndex = config.searchIndex;
 const kafkatopic = config.kafkaTopic;
 
-const KafkaConfig = async () => {
-
-    const check = await createTopic(kafkatopic);
-
-    if (check) {
-        // start server
-        server();
-    }
-
-}
 
 //KafkaConfig();
 
@@ -71,8 +61,8 @@ const ElasticEnv = async () => {
                 console.log('Search Index Is already Present')
             }
 
-            //   server();
-            KafkaConfig();
+         server();
+       
         }
 
     } catch (e) {
@@ -84,7 +74,7 @@ const ElasticEnv = async () => {
 const server = () => {
     app.listen(port, async () => {
         // start listening
-        Subscribe();
+           SearchDataQueue();
         console.log(`Elastic Search Service Is Listening on port :: ${port}`)
     });
 }
