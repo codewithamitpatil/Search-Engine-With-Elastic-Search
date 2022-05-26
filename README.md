@@ -15,6 +15,12 @@ Search engine with elastic search , node js , rabit mq  and kafka
  So this repo is continusally listen for message , once it get the message it puts that message into elastic search.
  
  This repo has two end points from where we can search data and a make netwrok call for autocomplete.
+ 
+ 
+ 1] / search?q=amit  // for full text search
+ 
+ 2] / autocomplete?auto=ami // for autocomplete
+ 
 
 ##<a href="https://github.com/codewithamitpatil/Search-Engine-With-Elastic-Search">  Search Engine with ELASTIC AND RABIT MQ </a>
 
