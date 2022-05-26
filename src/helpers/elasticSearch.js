@@ -190,6 +190,8 @@ export async function removeIndexes(index) {
 
 }
 
+// removeIndexes('searchindex')
+// removeIndexes('autoindex')
 // insert document 
 export const AddDocument = async (index, id, body) => {
     const temp = await esclient.index({
@@ -205,7 +207,7 @@ export const AddDocument = async (index, id, body) => {
 // get All documents
 export const getAllDocumentsByIndex = async (index) => {
     const temp = await esclient.search({
-        index,
+        index: 'searchindex',
         query: {
             match_all: {}
         }
@@ -213,6 +215,9 @@ export const getAllDocumentsByIndex = async (index) => {
     console.log(temp.hits.hits);
     return temp;
 }
+//getAllDocumentsByIndex('searchindex')
+
+
 
 const obj = {
     title: 'sumit is greate',
@@ -345,5 +350,5 @@ export const deleteDocumentById = async (index, id) => {
 //removeIndexes('postsearch')
 
 //getIndexes()
-getAllDocumentsByIndex(searchIndex)
+//getAllDocumentsByIndex(searchIndex)
 //

@@ -6,7 +6,7 @@ import amqp from 'amqplib';
 
 import config from './config/default.js';
 
-import './helpers/kafka_producer.js';
+
 
 import {
     AddDocument,
@@ -91,5 +91,7 @@ export const SearchDataQueue = async () => {
 
 
 }
+
+
 
 export default app;
