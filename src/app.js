@@ -34,64 +34,6 @@ app.post('/status', async (req, res, next) => {
 })
 
 
-// add post, channel,user data to elastic search 
-export const SearchDataQueue = async () => {
-
-    const quename = config.quename;
-    const connection = await amqp.connect(config.rabitUri);
-    const channel = await connection.createChannel();
-    const que = await channel.assertQueue(quename, {
-        durable: false
-    });
-
-    channel.consume(quename, async (msg) => {
-        console.log(msg.content.toString());
-        let temp = msg.content.toString();
-        let data = JSON.parse(temp);
-
-        console.log('action ===', data.action)
-
-        switch (data.action) {
-            case 'add':
-                delete data.action;
-                // add data to elk
-                await AddDocument(searchIndex, data.postId, data);
-                await AddDocument(autoIndex, data.postId, data);
-
-                break;
-            case 'removePost':
-                await deleteDocumentByQuery(searchIndex, {
-                    postId: data.postId
-                });
-                await deleteDocumentByQuery(autoIndex, {
-                    postId: data.postId
-                });
-                break;
-            case 'removeChannel':
-                await deleteDocumentByQuery(searchIndex, {
-                    channelId: data.channelId
-                });
-                await deleteDocumentByQuery(autoIndex, {
-                    channelId: data.channelId
-                });
-                break;
-        }
-
-
-        console.log(data);
-        // MailHandler(data);
-        channel.ack(msg);
-    });
-
-
-    process.on('exit', (code) => {
-        console.log('process exit nde', code);
-        connection.close();
-    });
-
-
-}
-
 
 
 export default app;
