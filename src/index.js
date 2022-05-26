@@ -3,23 +3,48 @@ import {
     checkConnection,
     createSearchIndex,
     esclient,
-    createAutoCompleteIndex
+    createAutoCompleteIndex,
+    getIndexes,
+    searchDocuments,
+    getAllDocumentsByIndex
 } from './helpers/elasticSearch.js';
 
 import app, {
     SearchDataQueue
-
 } from './app.js';
+
+import Publish from './helpers/kafka_producer.js';
+
+import {
+    Subscribe
+} from './helpers/kafka_consumer.js';
+
+import {
+    createTopic
+} from './helpers/KafkaClient.js';
 
 const port = config.port;
 const autoIndex = config.autoIndex;
 const searchIndex = config.searchIndex;
+const kafkatopic = config.kafkaTopic;
 
+const KafkaConfig = async () => {
+
+    const check = await createTopic(kafkatopic);
+
+    if (check) {
+        // start server
+        server();
+    }
+
+}
+
+//KafkaConfig();
 
 const ElasticEnv = async () => {
 
     try {
-
+        console.log('Starting elastic env')
         const isElasticReady = await checkConnection();
 
         if (isElasticReady) {
@@ -46,9 +71,8 @@ const ElasticEnv = async () => {
                 console.log('Search Index Is already Present')
             }
 
-            // start server
-            server();
-
+            //   server();
+            KafkaConfig();
         }
 
     } catch (e) {
@@ -56,13 +80,15 @@ const ElasticEnv = async () => {
     }
 }
 
-
-ElasticEnv();
-
 // main express server
 const server = () => {
-    app.listen(port, () => {
-        SearchDataQueue();
+    app.listen(port, async () => {
+        // start listening
+        Subscribe();
         console.log(`Elastic Search Service Is Listening on port :: ${port}`)
     });
 }
+
+
+// start elastic
+ElasticEnv();
