@@ -84,11 +84,11 @@ const ElasticEnv = async () => {
 const server = () => {
     app.listen(port, async () => {
         // start listening
-        Subscribe();
+        // Subscribe();
         console.log(`Elastic Search Service Is Listening on port :: ${port}`)
     });
 }
 
-
+//server();
 // start elastic
 ElasticEnv();
