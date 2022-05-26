@@ -13,15 +13,7 @@ import app, {
     SearchDataQueue
 } from './app.js';
 
-import Publish from './helpers/kafka_producer.js';
 
-import {
-    Subscribe
-} from './helpers/kafka_consumer.js';
-
-import {
-    createTopic
-} from './helpers/KafkaClient.js';
 
 const port = config.port;
 const autoIndex = config.autoIndex;
